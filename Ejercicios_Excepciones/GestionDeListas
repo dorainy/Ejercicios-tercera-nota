@@ -1,0 +1,73 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class GestionLista {
+    public static void main(String[] args) {
+        ArrayList<String> lista = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        boolean continuar = true;
+
+        lista.add("Elemento 1");
+        lista.add("Elemento 2");
+        lista.add("Elemento 3");
+
+        while (continuar) {
+            System.out.println("\n--- Menú ---");
+            System.out.println("1. Ver lista");
+            System.out.println("2. Ver elemento por índice");
+            System.out.println("3. Agregar elemento");
+            System.out.println("4. Eliminar elemento por índice");
+            System.out.println("5. Salir");
+            System.out.print("Elige una opción: ");
+
+            try {
+                int opcion = scanner.nextInt();
+                scanner.nextLine(); 
+
+                switch (opcion) {
+                    case 1:
+                        System.out.println("\nLista de elementos:");
+                        for (int i = 0; i < lista.size(); i++) {
+                            System.out.println(i + ": " + lista.get(i));
+                        }
+                        break;
+
+                    case 2:
+                        System.out.print("\nIntroduce el índice del elemento: ");
+                        int indice = scanner.nextInt();
+                        System.out.println("Elemento en índice " + indice + ": " + lista.get(indice));
+                        break;
+
+                    case 3:
+                        System.out.print("\nIntroduce el elemento a agregar: ");
+                        String elemento = scanner.nextLine();
+                        lista.add(elemento);
+                        System.out.println("Elemento agregado.");
+                        break;
+
+                    case 4:
+                        System.out.print("\nIntroduce el índice del elemento a eliminar: ");
+                        int indiceEliminar = scanner.nextInt();
+                        System.out.println("Elemento eliminado: " + lista.remove(indiceEliminar));
+                        break;
+
+                    case 5:
+                        continuar = false;
+                        System.out.println("Saliendo del programa...");
+                        break;
+
+                    default:
+                        System.out.println("Opción no válida. Inténtalo de nuevo.");
+                        break;
+                }
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Error: El índice especificado no es válido. " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Error: Entrada no válida. " + e.getMessage());
+                scanner.nextLine(); 
+            }
+        }
+
+        scanner.close();
+    }
+}

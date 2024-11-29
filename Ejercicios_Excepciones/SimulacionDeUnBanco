@@ -1,0 +1,56 @@
+class FondosInsuficientesException extends Exception {
+    public FondosInsuficientesException(String mensaje) {
+        super(mensaje);
+    }
+}
+
+class CuentaBancaria {
+    private double saldo;
+
+    public CuentaBancaria(double saldoInicial) {
+        if (saldoInicial < 0) {
+            throw new IllegalArgumentException("El saldo inicial no puede ser negativo.");
+        }
+        this.saldo = saldoInicial;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void depositar(double cantidad) {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad a depositar debe ser positiva.");
+        }
+        saldo += cantidad;
+    }
+
+    public void retirar(double cantidad) throws FondosInsuficientesException {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad a retirar debe ser positiva.");
+        }
+        if (cantidad > saldo) {
+            throw new FondosInsuficientesException("Fondos insuficientes. Saldo disponible: " + saldo);
+        }
+        saldo -= cantidad;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            CuentaBancaria cuenta = new CuentaBancaria(500);
+
+            System.out.println("Saldo inicial: " + cuenta.getSaldo());
+
+            cuenta.retirar(200);
+            System.out.println("Saldo después de retirar 200: " + cuenta.getSaldo());
+
+            cuenta.retirar(400);
+        } catch (FondosInsuficientesException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error inesperado: " + e.getMessage());
+        }
+    }
+}
